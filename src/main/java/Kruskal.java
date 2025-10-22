@@ -1,49 +1,42 @@
+
 import java.util.*;
+import java.util.stream.*;
 
 public class Kruskal {
 
-    static class UnionFind {
-        private final Map<String, String> parent = new HashMap<>();
-        private final Map<String, Integer> rank = new HashMap<>();
-        long ops = 0;
+    public static AlgoResult findMST(Graph g) {
+        List<String> vsList = new ArrayList<>(g.getVertices());
+        int n = vsList.size();
+        Map<String,Integer> idx = new HashMap<>(n*2);
+        for (int i = 0; i < n; i++) idx.put(vsList.get(i), i);
 
-        void makeSet(Collection<String> vs) {
-            for (String v : vs) { parent.put(v, v); rank.put(v, 0); }
-        }
-        String find(String v) {
-            ops++;
-            if (!parent.get(v).equals(v)) parent.put(v, find(parent.get(v)));
-            return parent.get(v);
-        }
-        boolean union(String a, String b) {
-            String ra = find(a), rb = find(b);
-            if (ra.equals(rb)) return false;
-            int rka = rank.get(ra), rkb = rank.get(rb);
-            if (rka < rkb) parent.put(ra, rb);
-            else if (rka > rkb) parent.put(rb, ra);
-            else { parent.put(rb, ra); rank.put(ra, rka + 1); }
-            ops++;
-            return true;
-        }
-    }
-
-    public static AlgoResult findMST(Graph graph) {
-        List<Edge> result = new ArrayList<>();
-        List<Edge> edges = graph.getAllEdges();
-
+        List<Edge> src = g.getEdgesUnique();
+        Edge[] edges = src.toArray(new Edge[0]);
         final long[] sortOps = {0};
-        edges.sort((a, b) -> { sortOps[0]++; return Integer.compare(a.weight, b.weight); });
+        Arrays.sort(edges, (a,b)->{ sortOps[0]++; return Integer.compare(a.weight, b.weight); });
 
-        UnionFind uf = new UnionFind();
-        uf.makeSet(graph.getVertices());
+        int[] parent = new int[n], rank = new int[n];
+        for (int i = 0; i < n; i++) parent[i] = i;
+
+        List<Edge> mst = new ArrayList<>(Math.max(0, n-1));
+        long ops = sortOps[0];
 
         for (Edge e : edges) {
-            if (uf.union(e.from, e.to)) {
-                result.add(e);
-                if (result.size() == graph.getVertices().size() - 1) break;
+            int u = idx.get(e.from), v = idx.get(e.to);
+            int ru = find(parent, u), rv = find(parent, v); ops += 2;
+            if (ru != rv) {
+                if (rank[ru] < rank[rv]) parent[ru] = rv;
+                else if (rank[ru] > rank[rv]) parent[rv] = ru;
+                else { parent[rv] = ru; rank[ru]++; }
+                mst.add(e); ops++;
+                if (mst.size() == n - 1) break;
             }
         }
-        long ops = sortOps[0] + uf.ops;
-        return new AlgoResult(result, ops);
+        return new AlgoResult(mst, ops);
+    }
+
+    private static int find(int[] p, int x) {
+        while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; }
+        return x;
     }
 }

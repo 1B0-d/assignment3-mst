@@ -1,4 +1,13 @@
 {
+  "summary":   {
+    "graphs": 8,
+    "prim_wins": 2,
+    "kruskal_wins": 6,
+    "ties": 0,
+    "avg_prim_ms": 0.007034,
+    "avg_kruskal_ms": 0.005776,
+    "who_is_faster_overall": "kruskal"
+  },
   "results": [
     {
       "graph_id": 1,
@@ -15,7 +24,8 @@
         ],
         "total_cost": 16,
         "operations_count": 12,
-        "execution_time_ms": 1.7759
+        "execution_time_ms": 0.020426,
+        "connected": true
       },
       "kruskal":       {
         "mst_edges": [
@@ -25,8 +35,17 @@
           {"from":"D","to":"E","weight":6}
         ],
         "total_cost": 16,
-        "operations_count": 29,
-        "execution_time_ms": 6.7436
+        "operations_count": 26,
+        "execution_time_ms": 0.016164,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.020426,
+        "kruskal_ms": 0.016164,
+        "delta_ms": 0.004262,
+        "delta_pct": 20.87,
+        "speedup": 1.264
       }
     },
     {
@@ -43,7 +62,8 @@
         ],
         "total_cost": 6,
         "operations_count": 8,
-        "execution_time_ms": 0.0252
+        "execution_time_ms": 0.001606,
+        "connected": true
       },
       "kruskal":       {
         "mst_edges": [
@@ -52,8 +72,294 @@
           {"from":"C","to":"D","weight":3}
         ],
         "total_cost": 6,
+        "operations_count": 17,
+        "execution_time_ms": 0.001298,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.001606,
+        "kruskal_ms": 0.001298,
+        "delta_ms": 3.08E-4,
+        "delta_pct": 19.18,
+        "speedup": 1.237
+      }
+    },
+    {
+      "graph_id": 3,
+      "input_stats":       {
+        "vertices": 6,
+        "edges": 12
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":2},
+          {"from":"B","to":"C","weight":1},
+          {"from":"C","to":"D","weight":2},
+          {"from":"D","to":"E","weight":3},
+          {"from":"E","to":"F","weight":4}
+        ],
+        "total_cost": 12,
         "operations_count": 19,
-        "execution_time_ms": 0.053
+        "execution_time_ms": 0.00296,
+        "connected": true
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"B","to":"C","weight":1},
+          {"from":"A","to":"B","weight":2},
+          {"from":"C","to":"D","weight":2},
+          {"from":"D","to":"E","weight":3},
+          {"from":"E","to":"F","weight":4}
+        ],
+        "total_cost": 12,
+        "operations_count": 50,
+        "execution_time_ms": 0.002494,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.00296,
+        "kruskal_ms": 0.002494,
+        "delta_ms": 4.66E-4,
+        "delta_pct": 15.74,
+        "speedup": 1.187
+      }
+    },
+    {
+      "graph_id": 4,
+      "input_stats":       {
+        "vertices": 10,
+        "edges": 13
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":3},
+          {"from":"B","to":"D","weight":2},
+          {"from":"D","to":"C","weight":5},
+          {"from":"C","to":"E","weight":4},
+          {"from":"E","to":"F","weight":3},
+          {"from":"F","to":"H","weight":2},
+          {"from":"H","to":"I","weight":4},
+          {"from":"I","to":"J","weight":1},
+          {"from":"H","to":"G","weight":5}
+        ],
+        "total_cost": 29,
+        "operations_count": 22,
+        "execution_time_ms": 0.00359,
+        "connected": true
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"I","to":"J","weight":1},
+          {"from":"B","to":"D","weight":2},
+          {"from":"F","to":"H","weight":2},
+          {"from":"A","to":"B","weight":3},
+          {"from":"E","to":"F","weight":3},
+          {"from":"C","to":"E","weight":4},
+          {"from":"H","to":"I","weight":4},
+          {"from":"C","to":"D","weight":5},
+          {"from":"G","to":"H","weight":5}
+        ],
+        "total_cost": 29,
+        "operations_count": 61,
+        "execution_time_ms": 0.003952,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "prim",
+        "prim_ms": 0.00359,
+        "kruskal_ms": 0.003952,
+        "delta_ms": 3.62E-4,
+        "delta_pct": 9.16,
+        "speedup": 1.101
+      }
+    },
+    {
+      "graph_id": 5,
+      "input_stats":       {
+        "vertices": 10,
+        "edges": 22
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"C","weight":2},
+          {"from":"C","to":"B","weight":3},
+          {"from":"C","to":"D","weight":4},
+          {"from":"D","to":"E","weight":2},
+          {"from":"E","to":"F","weight":1},
+          {"from":"E","to":"G","weight":3},
+          {"from":"G","to":"H","weight":2},
+          {"from":"H","to":"I","weight":3},
+          {"from":"I","to":"J","weight":2}
+        ],
+        "total_cost": 22,
+        "operations_count": 32,
+        "execution_time_ms": 0.01293,
+        "connected": true
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"E","to":"F","weight":1},
+          {"from":"A","to":"C","weight":2},
+          {"from":"D","to":"E","weight":2},
+          {"from":"G","to":"H","weight":2},
+          {"from":"I","to":"J","weight":2},
+          {"from":"B","to":"C","weight":3},
+          {"from":"E","to":"G","weight":3},
+          {"from":"H","to":"I","weight":3},
+          {"from":"C","to":"D","weight":4}
+        ],
+        "total_cost": 22,
+        "operations_count": 102,
+        "execution_time_ms": 0.0106,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.01293,
+        "kruskal_ms": 0.0106,
+        "delta_ms": 0.00233,
+        "delta_pct": 18.02,
+        "speedup": 1.22
+      }
+    },
+    {
+      "graph_id": 6,
+      "input_stats":       {
+        "vertices": 6,
+        "edges": 3
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":1},
+          {"from":"B","to":"C","weight":2}
+        ],
+        "total_cost": 3,
+        "operations_count": 4,
+        "execution_time_ms": 0.00117,
+        "connected": false
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":1},
+          {"from":"D","to":"E","weight":1},
+          {"from":"B","to":"C","weight":2}
+        ],
+        "total_cost": 4,
+        "operations_count": 13,
+        "execution_time_ms": 0.001188,
+        "connected": false
+      },
+      "comparison":       {
+        "faster": "prim",
+        "prim_ms": 0.00117,
+        "kruskal_ms": 0.001188,
+        "delta_ms": 1.8E-5,
+        "delta_pct": 1.52,
+        "speedup": 1.015
+      }
+    },
+    {
+      "graph_id": 7,
+      "input_stats":       {
+        "vertices": 7,
+        "edges": 10
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":2},
+          {"from":"A","to":"C","weight":2},
+          {"from":"C","to":"D","weight":3},
+          {"from":"C","to":"E","weight":3},
+          {"from":"E","to":"G","weight":4},
+          {"from":"D","to":"F","weight":4}
+        ],
+        "total_cost": 18,
+        "operations_count": 19,
+        "execution_time_ms": 0.003998,
+        "connected": true
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":2},
+          {"from":"A","to":"C","weight":2},
+          {"from":"B","to":"D","weight":3},
+          {"from":"C","to":"E","weight":3},
+          {"from":"D","to":"F","weight":4},
+          {"from":"E","to":"G","weight":4}
+        ],
+        "total_cost": 18,
+        "operations_count": 37,
+        "execution_time_ms": 0.002676,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.003998,
+        "kruskal_ms": 0.002676,
+        "delta_ms": 0.001322,
+        "delta_pct": 33.07,
+        "speedup": 1.494
+      }
+    },
+    {
+      "graph_id": 8,
+      "input_stats":       {
+        "vertices": 15,
+        "edges": 20
+      },
+      "prim":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":2},
+          {"from":"B","to":"D","weight":4},
+          {"from":"D","to":"C","weight":2},
+          {"from":"C","to":"E","weight":3},
+          {"from":"E","to":"G","weight":2},
+          {"from":"G","to":"H","weight":3},
+          {"from":"H","to":"J","weight":3},
+          {"from":"J","to":"L","weight":2},
+          {"from":"L","to":"K","weight":2},
+          {"from":"E","to":"F","weight":4},
+          {"from":"G","to":"I","weight":4},
+          {"from":"L","to":"N","weight":4},
+          {"from":"N","to":"M","weight":4},
+          {"from":"M","to":"O","weight":3}
+        ],
+        "total_cost": 42,
+        "operations_count": 34,
+        "execution_time_ms": 0.009596,
+        "connected": true
+      },
+      "kruskal":       {
+        "mst_edges": [
+          {"from":"A","to":"B","weight":2},
+          {"from":"E","to":"G","weight":2},
+          {"from":"J","to":"L","weight":2},
+          {"from":"C","to":"D","weight":2},
+          {"from":"K","to":"L","weight":2},
+          {"from":"C","to":"E","weight":3},
+          {"from":"H","to":"J","weight":3},
+          {"from":"M","to":"O","weight":3},
+          {"from":"G","to":"H","weight":3},
+          {"from":"B","to":"D","weight":4},
+          {"from":"G","to":"I","weight":4},
+          {"from":"L","to":"N","weight":4},
+          {"from":"E","to":"F","weight":4},
+          {"from":"M","to":"N","weight":4}
+        ],
+        "total_cost": 42,
+        "operations_count": 104,
+        "execution_time_ms": 0.00784,
+        "connected": true
+      },
+      "comparison":       {
+        "faster": "kruskal",
+        "prim_ms": 0.009596,
+        "kruskal_ms": 0.00784,
+        "delta_ms": 0.001756,
+        "delta_pct": 18.3,
+        "speedup": 1.224
       }
     }
   ]
