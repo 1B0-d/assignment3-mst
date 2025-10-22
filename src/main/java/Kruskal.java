@@ -1,35 +1,40 @@
 
 import java.util.*;
-import java.util.stream.*;
 
 public class Kruskal {
-
     public static AlgoResult findMST(Graph g) {
-        List<String> vsList = new ArrayList<>(g.getVertices());
-        int n = vsList.size();
-        Map<String,Integer> idx = new HashMap<>(n*2);
-        for (int i = 0; i < n; i++) idx.put(vsList.get(i), i);
+        List<String> vlist = g.getVertexList();
+        int n = vlist.size();
 
-        List<Edge> src = g.getEdgesUnique();
-        Edge[] edges = src.toArray(new Edge[0]);
+        List<int[]> edgesInt = g.getEdgesUniqueInt();
+        int m = edgesInt.size();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            int[] e = edgesInt.get(i);
+            edges[i][0] = e[0];
+            edges[i][1] = e[1];
+            edges[i][2] = e[2];
+        }
+
         final long[] sortOps = {0};
-        Arrays.sort(edges, (a,b)->{ sortOps[0]++; return Integer.compare(a.weight, b.weight); });
+        Arrays.sort(edges, (a,b)->{ sortOps[0]++; return Integer.compare(a[2], b[2]); });
 
-        int[] parent = new int[n], rank = new int[n];
+        int[] parent = new int[n];
+        int[] rank = new int[n];
         for (int i = 0; i < n; i++) parent[i] = i;
 
-        List<Edge> mst = new ArrayList<>(Math.max(0, n-1));
+        List<Edge> mst = new ArrayList<>(n - 1);
         long ops = sortOps[0];
 
-        for (Edge e : edges) {
-            int u = idx.get(e.from), v = idx.get(e.to);
+        for (int i = 0; i < m && mst.size() < n - 1; i++) {
+            int u = edges[i][0], v = edges[i][1], w = edges[i][2];
             int ru = find(parent, u), rv = find(parent, v); ops += 2;
             if (ru != rv) {
                 if (rank[ru] < rank[rv]) parent[ru] = rv;
                 else if (rank[ru] > rank[rv]) parent[rv] = ru;
                 else { parent[rv] = ru; rank[ru]++; }
-                mst.add(e); ops++;
-                if (mst.size() == n - 1) break;
+                mst.add(new Edge(vlist.get(u), vlist.get(v), w));
+                ops++;
             }
         }
         return new AlgoResult(mst, ops);

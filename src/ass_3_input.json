@@ -1,8 +1,24 @@
 {
+  "about": {
+    "purpose": [
+      "Small graphs (4–6 vertices) – for verifying correctness and debugging.",
+      "Medium graphs (10–15 vertices) – for observing performance on moderately sized networks.",
+      "Large graphs (20–30+ vertices) – for testing scalability and efficiency differences."
+    ],
+    "density_note": "Graph density ~= E / (V*(V-1)/2). Lower density => sparser. Heuristic: Kruskal tends to win on sparse graphs; Prim tends to win on dense graphs (especially with adjacency-matrix O(V^2) variant).",
+    "fields": {
+      "category": "small | medium | large",
+      "sparsity": "sparse | dense | mixed",
+      "expected_faster": "prim | kruskal | neutral (rough expectation, not a guarantee)"
+    }
+  },
   "graphs": [
     {
-      "id": 1,
-      "label": "small-sparse (5v,7e) — базовый из примера",
+      "id": 101,
+      "label": "small-sparse (5v,7e)",
+      "category": "small",
+      "sparsity": "sparse",
+      "expected_faster": "kruskal",
       "nodes": ["A","B","C","D","E"],
       "edges": [
         {"from":"A","to":"B","weight":4},
@@ -15,8 +31,11 @@
       ]
     },
     {
-      "id": 2,
-      "label": "small-sparse (4v,5e) — базовый из примера",
+      "id": 102,
+      "label": "small-sparse (4v,5e)",
+      "category": "small",
+      "sparsity": "sparse",
+      "expected_faster": "kruskal",
       "nodes": ["A","B","C","D"],
       "edges": [
         {"from":"A","to":"B","weight":1},
@@ -26,10 +45,12 @@
         {"from":"B","to":"D","weight":5}
       ]
     },
-
     {
-      "id": 3,
-      "label": "small-dense (6v,12e) — плотный граф (Prim обычно быстрее)",
+      "id": 103,
+      "label": "small-dense (6v,12e)",
+      "category": "small",
+      "sparsity": "dense",
+      "expected_faster": "prim",
       "nodes": ["A","B","C","D","E","F"],
       "edges": [
         {"from":"A","to":"B","weight":2},
@@ -48,8 +69,11 @@
     },
 
     {
-      "id": 4,
-      "label": "medium-sparse (10v,13e) — разреженный (Kruskal конкурентен)",
+      "id": 201,
+      "label": "medium-sparse (10v,13e)",
+      "category": "medium",
+      "sparsity": "sparse",
+      "expected_faster": "kruskal",
       "nodes": ["A","B","C","D","E","F","G","H","I","J"],
       "edges": [
         {"from":"A","to":"B","weight":3},
@@ -67,10 +91,12 @@
         {"from":"G","to":"J","weight":8}
       ]
     },
-
     {
-      "id": 5,
-      "label": "medium-dense (10v,22e) — плотный (Prim выигрывает чаще)",
+      "id": 202,
+      "label": "medium-dense (10v,22e)",
+      "category": "medium",
+      "sparsity": "dense",
+      "expected_faster": "prim",
       "nodes": ["A","B","C","D","E","F","G","H","I","J"],
       "edges": [
         {"from":"A","to":"B","weight":4},
@@ -97,62 +123,191 @@
         {"from":"I","to":"J","weight":2}
       ]
     },
-
     {
-      "id": 6,
-      "label": "disconnected (6v,3e) — несвязный (должно вернуть no MST/лес)",
-      "nodes": ["A","B","C","D","E","F"],
-      "edges": [
-        {"from":"A","to":"B","weight":1},
-        {"from":"B","to":"C","weight":2},
-        {"from":"D","to":"E","weight":1}
-        // вершина F изолирована; компоненты: {A,B,C}, {D,E}, {F}
-      ]
-    },
-
-    {
-      "id": 7,
-      "label": "ties (7v,10e) — много равных весов (несколько возможных MST)",
-      "nodes": ["A","B","C","D","E","F","G"],
+      "id": 203,
+      "label": "medium (12v,16e) — many equal weights (multiple MSTs)",
+      "category": "medium",
+      "sparsity": "mixed",
+      "expected_faster": "neutral",
+      "nodes": ["A","B","C","D","E","F","G","H","I","J","K","L"],
       "edges": [
         {"from":"A","to":"B","weight":2},
-        {"from":"A","to":"C","weight":2},
         {"from":"B","to":"C","weight":2},
-        {"from":"B","to":"D","weight":3},
-        {"from":"C","to":"E","weight":3},
-        {"from":"D","to":"E","weight":3},
-        {"from":"D","to":"F","weight":4},
-        {"from":"E","to":"G","weight":4},
-        {"from":"F","to":"G","weight":4},
-        {"from":"C","to":"D","weight":3}
-      ]
-    },
-
-    {
-      "id": 8,
-      "label": "large-sparse (15v,20e) — масштаб побольше, разреженный",
-      "nodes": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"],
-      "edges": [
-        {"from":"A","to":"B","weight":2},
-        {"from":"A","to":"C","weight":5},
-        {"from":"B","to":"D","weight":4},
-        {"from":"C","to":"E","weight":3},
-        {"from":"D","to":"F","weight":6},
-        {"from":"E","to":"G","weight":2},
-        {"from":"F","to":"H","weight":5},
-        {"from":"G","to":"I","weight":4},
-        {"from":"H","to":"J","weight":3},
-        {"from":"I","to":"K","weight":6},
-        {"from":"J","to":"L","weight":2},
-        {"from":"K","to":"M","weight":5},
-        {"from":"L","to":"N","weight":4},
-        {"from":"M","to":"O","weight":3},
         {"from":"C","to":"D","weight":2},
-        {"from":"E","to":"F","weight":4},
-        {"from":"G","to":"H","weight":3},
-        {"from":"I","to":"J","weight":5},
+        {"from":"D","to":"E","weight":2},
+        {"from":"E","to":"F","weight":2},
+        {"from":"F","to":"G","weight":2},
+        {"from":"G","to":"H","weight":2},
+        {"from":"H","to":"I","weight":2},
+        {"from":"I","to":"J","weight":2},
+        {"from":"J","to":"K","weight":2},
         {"from":"K","to":"L","weight":2},
-        {"from":"M","to":"N","weight":4}
+        {"from":"A","to":"C","weight":3},
+        {"from":"C","to":"E","weight":3},
+        {"from":"E","to":"G","weight":3},
+        {"from":"G","to":"I","weight":3},
+        {"from":"I","to":"K","weight":3}
+      ]
+    },
+
+    {
+      "id": 301,
+      "label": "large-sparse (20v,30e)",
+      "category": "large",
+      "sparsity": "sparse",
+      "expected_faster": "kruskal",
+      "nodes": ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10","V11","V12","V13","V14","V15","V16","V17","V18","V19","V20"],
+      "edges": [
+        {"from":"V1","to":"V2","weight":2},
+        {"from":"V2","to":"V3","weight":3},
+        {"from":"V3","to":"V4","weight":2},
+        {"from":"V4","to":"V5","weight":4},
+        {"from":"V5","to":"V6","weight":3},
+        {"from":"V6","to":"V7","weight":5},
+        {"from":"V7","to":"V8","weight":2},
+        {"from":"V8","to":"V9","weight":4},
+        {"from":"V9","to":"V10","weight":3},
+        {"from":"V10","to":"V11","weight":2},
+        {"from":"V11","to":"V12","weight":3},
+        {"from":"V12","to":"V13","weight":4},
+        {"from":"V13","to":"V14","weight":2},
+        {"from":"V14","to":"V15","weight":3},
+        {"from":"V15","to":"V16","weight":4},
+        {"from":"V16","to":"V17","weight":2},
+        {"from":"V17","to":"V18","weight":3},
+        {"from":"V18","to":"V19","weight":4},
+        {"from":"V19","to":"V20","weight":2},
+        {"from":"V1","to":"V3","weight":4},
+        {"from":"V3","to":"V5","weight":5},
+        {"from":"V5","to":"V7","weight":4},
+        {"from":"V7","to":"V9","weight":5},
+        {"from":"V9","to":"V11","weight":4},
+        {"from":"V11","to":"V13","weight":5},
+        {"from":"V13","to":"V15","weight":4},
+        {"from":"V15","to":"V17","weight":5},
+        {"from":"V17","to":"V19","weight":4},
+        {"from":"V2","to":"V6","weight":6},
+        {"from":"V8","to":"V12","weight":6}
+      ]
+    },
+    {
+      "id": 302,
+      "label": "large-mixed (24v,42e) — mid density",
+      "category": "large",
+      "sparsity": "mixed",
+      "expected_faster": "neutral",
+      "nodes": ["N1","N2","N3","N4","N5","N6","N7","N8","N9","N10","N11","N12","N13","N14","N15","N16","N17","N18","N19","N20","N21","N22","N23","N24"],
+      "edges": [
+        {"from":"N1","to":"N2","weight":3},{"from":"N2","to":"N3","weight":2},{"from":"N3","to":"N4","weight":4},
+        {"from":"N4","to":"N5","weight":3},{"from":"N5","to":"N6","weight":5},{"from":"N6","to":"N7","weight":2},
+        {"from":"N7","to":"N8","weight":4},{"from":"N8","to":"N9","weight":3},{"from":"N9","to":"N10","weight":2},
+        {"from":"N10","to":"N11","weight":3},{"from":"N11","to":"N12","weight":4},{"from":"N12","to":"N13","weight":2},
+        {"from":"N13","to":"N14","weight":3},{"from":"N14","to":"N15","weight":4},{"from":"N15","to":"N16","weight":2},
+        {"from":"N16","to":"N17","weight":3},{"from":"N17","to":"N18","weight":4},{"from":"N18","to":"N19","weight":2},
+        {"from":"N19","to":"N20","weight":3},{"from":"N20","to":"N21","weight":4},{"from":"N21","to":"N22","weight":2},
+        {"from":"N22","to":"N23","weight":3},{"from":"N23","to":"N24","weight":4},
+
+        {"from":"N1","to":"N3","weight":4},{"from":"N2","to":"N5","weight":6},{"from":"N4","to":"N7","weight":5},
+        {"from":"N6","to":"N9","weight":6},{"from":"N8","to":"N11","weight":5},{"from":"N10","to":"N13","weight":6},
+        {"from":"N12","to":"N15","weight":5},{"from":"N14","to":"N17","weight":6},{"from":"N16","to":"N19","weight":5},
+        {"from":"N18","to":"N21","weight":6},{"from":"N20","to":"N23","weight":5},{"from":"N3","to":"N6","weight":5},
+        {"from":"N7","to":"N10","weight":5},{"from":"N11","to":"N14","weight":5},{"from":"N15","to":"N18","weight":5},
+        {"from":"N19","to":"N22","weight":5},{"from":"N5","to":"N10","weight":7},{"from":"N9","to":"N14","weight":7}
+      ]
+    },
+    {
+      "id": 303,
+      "label": "large-dense (28v, ~70e)",
+      "category": "large",
+      "sparsity": "dense",
+      "expected_faster": "prim",
+      "nodes": ["X1","X2","X3","X4","X5","X6","X7","X8","X9","X10","X11","X12","X13","X14","X15","X16","X17","X18","X19","X20","X21","X22","X23","X24","X25","X26","X27","X28"],
+      "edges": [
+        {"from":"X1","to":"X2","weight":2},{"from":"X1","to":"X3","weight":3},{"from":"X1","to":"X4","weight":4},{"from":"X1","to":"X5","weight":5},
+        {"from":"X2","to":"X3","weight":2},{"from":"X2","to":"X4","weight":3},{"from":"X2","to":"X5","weight":4},{"from":"X2","to":"X6","weight":5},
+        {"from":"X3","to":"X4","weight":2},{"from":"X3","to":"X5","weight":3},{"from":"X3","to":"X6","weight":4},{"from":"X3","to":"X7","weight":5},
+        {"from":"X4","to":"X5","weight":2},{"from":"X4","to":"X6","weight":3},{"from":"X4","to":"X7","weight":4},{"from":"X4","to":"X8","weight":5},
+        {"from":"X5","to":"X6","weight":2},{"from":"X5","to":"X7","weight":3},{"from":"X5","to":"X8","weight":4},{"from":"X5","to":"X9","weight":5},
+        {"from":"X6","to":"X7","weight":2},{"from":"X6","to":"X8","weight":3},{"from":"X6","to":"X9","weight":4},{"from":"X6","to":"X10","weight":5},
+        {"from":"X7","to":"X8","weight":2},{"from":"X7","to":"X9","weight":3},{"from":"X7","to":"X10","weight":4},{"from":"X7","to":"X11","weight":5},
+        {"from":"X8","to":"X9","weight":2},{"from":"X8","to":"X10","weight":3},{"from":"X8","to":"X11","weight":4},{"from":"X8","to":"X12","weight":5},
+        {"from":"X9","to":"X10","weight":2},{"from":"X9","to":"X11","weight":3},{"from":"X9","to":"X12","weight":4},{"from":"X9","to":"X13","weight":5},
+        {"from":"X10","to":"X11","weight":2},{"from":"X10","to":"X12","weight":3},{"from":"X10","to":"X13","weight":4},{"from":"X10","to":"X14","weight":5},
+        {"from":"X11","to":"X12","weight":2},{"from":"X11","to":"X13","weight":3},{"from":"X11","to":"X14","weight":4},{"from":"X11","to":"X15","weight":5},
+        {"from":"X12","to":"X13","weight":2},{"from":"X12","to":"X14","weight":3},{"from":"X12","to":"X15","weight":4},{"from":"X12","to":"X16","weight":5},
+        {"from":"X13","to":"X14","weight":2},{"from":"X13","to":"X15","weight":3},{"from":"X13","to":"X16","weight":4},{"from":"X13","to":"X17","weight":5},
+        {"from":"X14","to":"X15","weight":2},{"from":"X14","to":"X16","weight":3},{"from":"X14","to":"X17","weight":4},{"from":"X14","to":"X18","weight":5},
+        {"from":"X15","to":"X16","weight":2},{"from":"X15","to":"X17","weight":3},{"from":"X15","to":"X18","weight":4},{"from":"X15","to":"X19","weight":5},
+        {"from":"X16","to":"X17","weight":2},{"from":"X16","to":"X18","weight":3},{"from":"X16","to":"X19","weight":4},{"from":"X16","to":"X20","weight":5},
+        {"from":"X17","to":"X18","weight":2},{"from":"X17","to":"X19","weight":3},{"from":"X17","to":"X20","weight":4},{"from":"X17","to":"X21","weight":5}
+      ]
+    },
+
+    {
+      "id": 401,
+      "label": "large30-sparse (30v,44e) — very sparse",
+      "category": "large",
+      "sparsity": "sparse",
+      "expected_faster": "kruskal",
+      "nodes": ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10","V11","V12","V13","V14","V15","V16","V17","V18","V19","V20","V21","V22","V23","V24","V25","V26","V27","V28","V29","V30"],
+      "edges": [
+        {"from":"V1","to":"V2","weight":2}, {"from":"V2","to":"V3","weight":3}, {"from":"V3","to":"V4","weight":2},
+        {"from":"V4","to":"V5","weight":4}, {"from":"V5","to":"V6","weight":3}, {"from":"V6","to":"V7","weight":5},
+        {"from":"V7","to":"V8","weight":2}, {"from":"V8","to":"V9","weight":4}, {"from":"V9","to":"V10","weight":3},
+        {"from":"V10","to":"V11","weight":2}, {"from":"V11","to":"V12","weight":3}, {"from":"V12","to":"V13","weight":4},
+        {"from":"V13","to":"V14","weight":2}, {"from":"V14","to":"V15","weight":3}, {"from":"V15","to":"V16","weight":4},
+        {"from":"V16","to":"V17","weight":2}, {"from":"V17","to":"V18","weight":3}, {"from":"V18","to":"V19","weight":4},
+        {"from":"V19","to":"V20","weight":2}, {"from":"V20","to":"V21","weight":3}, {"from":"V21","to":"V22","weight":4},
+        {"from":"V22","to":"V23","weight":2}, {"from":"V23","to":"V24","weight":3}, {"from":"V24","to":"V25","weight":4},
+        {"from":"V25","to":"V26","weight":2}, {"from":"V26","to":"V27","weight":3}, {"from":"V27","to":"V28","weight":4},
+        {"from":"V28","to":"V29","weight":2}, {"from":"V29","to":"V30","weight":3},
+
+        {"from":"V1","to":"V3","weight":4}, {"from":"V3","to":"V5","weight":5}, {"from":"V5","to":"V7","weight":4},
+        {"from":"V7","to":"V9","weight":5}, {"from":"V9","to":"V11","weight":4}, {"from":"V11","to":"V13","weight":5},
+        {"from":"V13","to":"V15","weight":4}, {"from":"V15","to":"V17","weight":5}, {"from":"V17","to":"V19","weight":4},
+        {"from":"V19","to":"V21","weight":5}, {"from":"V21","to":"V23","weight":4}, {"from":"V23","to":"V25","weight":5},
+        {"from":"V25","to":"V27","weight":4}, {"from":"V27","to":"V29","weight":5}
+      ]
+    },
+    {
+      "id": 402,
+      "label": "large32-mixed (32v,61e) — mid density window (+1,+2)",
+      "category": "large",
+      "sparsity": "mixed",
+      "expected_faster": "neutral",
+      "nodes": ["X1","X2","X3","X4","X5","X6","X7","X8","X9","X10","X11","X12","X13","X14","X15","X16","X17","X18","X19","X20","X21","X22","X23","X24","X25","X26","X27","X28","X29","X30","X31","X32"],
+      "edges": [
+        {"from":"X1","to":"X2","weight":2}, {"from":"X1","to":"X3","weight":4},
+        {"from":"X2","to":"X3","weight":3}, {"from":"X2","to":"X4","weight":5},
+        {"from":"X3","to":"X4","weight":2}, {"from":"X3","to":"X5","weight":4},
+        {"from":"X4","to":"X5","weight":3}, {"from":"X4","to":"X6","weight":5},
+        {"from":"X5","to":"X6","weight":2}, {"from":"X5","to":"X7","weight":4},
+        {"from":"X6","to":"X7","weight":3}, {"from":"X6","to":"X8","weight":5},
+        {"from":"X7","to":"X8","weight":2}, {"from":"X7","to":"X9","weight":4},
+        {"from":"X8","to":"X9","weight":3}, {"from":"X8","to":"X10","weight":5},
+        {"from":"X9","to":"X10","weight":2}, {"from":"X9","to":"X11","weight":4},
+        {"from":"X10","to":"X11","weight":3}, {"from":"X10","to":"X12","weight":5},
+        {"from":"X11","to":"X12","weight":2}, {"from":"X11","to":"X13","weight":4},
+        {"from":"X12","to":"X13","weight":3}, {"from":"X12","to":"X14","weight":5},
+        {"from":"X13","to":"X14","weight":2}, {"from":"X13","to":"X15","weight":4},
+        {"from":"X14","to":"X15","weight":3}, {"from":"X14","to":"X16","weight":5},
+        {"from":"X15","to":"X16","weight":2}, {"from":"X15","to":"X17","weight":4},
+        {"from":"X16","to":"X17","weight":3}, {"from":"X16","to":"X18","weight":5},
+        {"from":"X17","to":"X18","weight":2}, {"from":"X17","to":"X19","weight":4},
+        {"from":"X18","to":"X19","weight":3}, {"from":"X18","to":"X20","weight":5},
+        {"from":"X19","to":"X20","weight":2}, {"from":"X19","to":"X21","weight":4},
+        {"from":"X20","to":"X21","weight":3}, {"from":"X20","to":"X22","weight":5},
+        {"from":"X21","to":"X22","weight":2}, {"from":"X21","to":"X23","weight":4},
+        {"from":"X22","to":"X23","weight":3}, {"from":"X22","to":"X24","weight":5},
+        {"from":"X23","to":"X24","weight":2}, {"from":"X23","to":"X25","weight":4},
+        {"from":"X24","to":"X25","weight":3}, {"from":"X24","to":"X26","weight":5},
+        {"from":"X25","to":"X26","weight":2}, {"from":"X25","to":"X27","weight":4},
+        {"from":"X26","to":"X27","weight":3}, {"from":"X26","to":"X28","weight":5},
+        {"from":"X27","to":"X28","weight":2}, {"from":"X27","to":"X29","weight":4},
+        {"from":"X28","to":"X29","weight":3}, {"from":"X28","to":"X30","weight":5},
+        {"from":"X29","to":"X30","weight":2}, {"from":"X29","to":"X31","weight":4},
+        {"from":"X30","to":"X31","weight":3}, {"from":"X30","to":"X32","weight":5},
+        {"from":"X31","to":"X32","weight":2}
       ]
     }
   ]
