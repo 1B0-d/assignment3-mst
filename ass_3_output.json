@@ -2,110 +2,58 @@
   "results": [
     {
       "graph_id": 1,
-      "input_stats": {
+      "input_stats":       {
         "vertices": 5,
         "edges": 7
       },
-      "prim": {
+      "prim":       {
         "mst_edges": [
-          {
-            "from": "A",
-            "to": "C",
-            "weight": 3
-          },
-          {
-            "from": "C",
-            "to": "B",
-            "weight": 2
-          },
-          {
-            "from": "B",
-            "to": "D",
-            "weight": 5
-          },
-          {
-            "from": "D",
-            "to": "E",
-            "weight": 6
-          }
+          {"from":"A","to":"C","weight":3},
+          {"from":"C","to":"B","weight":2},
+          {"from":"B","to":"D","weight":5},
+          {"from":"D","to":"E","weight":6}
         ],
         "total_cost": 16,
-        "execution_time_ms": 11.1529
+        "operations_count": 12,
+        "execution_time_ms": 1.7759
       },
-      "kruskal": {
+      "kruskal":       {
         "mst_edges": [
-          {
-            "from": "B",
-            "to": "C",
-            "weight": 2
-          },
-          {
-            "from": "A",
-            "to": "C",
-            "weight": 3
-          },
-          {
-            "from": "B",
-            "to": "D",
-            "weight": 5
-          },
-          {
-            "from": "D",
-            "to": "E",
-            "weight": 6
-          }
+          {"from":"B","to":"C","weight":2},
+          {"from":"A","to":"C","weight":3},
+          {"from":"B","to":"D","weight":5},
+          {"from":"D","to":"E","weight":6}
         ],
         "total_cost": 16,
-        "execution_time_ms": 32.247
+        "operations_count": 29,
+        "execution_time_ms": 6.7436
       }
     },
     {
       "graph_id": 2,
-      "input_stats": {
+      "input_stats":       {
         "vertices": 4,
         "edges": 5
       },
-      "prim": {
+      "prim":       {
         "mst_edges": [
-          {
-            "from": "A",
-            "to": "B",
-            "weight": 1
-          },
-          {
-            "from": "B",
-            "to": "C",
-            "weight": 2
-          },
-          {
-            "from": "C",
-            "to": "D",
-            "weight": 3
-          }
+          {"from":"A","to":"B","weight":1},
+          {"from":"B","to":"C","weight":2},
+          {"from":"C","to":"D","weight":3}
         ],
         "total_cost": 6,
-        "execution_time_ms": 0.0268
+        "operations_count": 8,
+        "execution_time_ms": 0.0252
       },
-      "kruskal": {
+      "kruskal":       {
         "mst_edges": [
-          {
-            "from": "A",
-            "to": "B",
-            "weight": 1
-          },
-          {
-            "from": "B",
-            "to": "C",
-            "weight": 2
-          },
-          {
-            "from": "C",
-            "to": "D",
-            "weight": 3
-          }
+          {"from":"A","to":"B","weight":1},
+          {"from":"B","to":"C","weight":2},
+          {"from":"C","to":"D","weight":3}
         ],
         "total_cost": 6,
-        "execution_time_ms": 0.0613
+        "operations_count": 19,
+        "execution_time_ms": 0.053
       }
     }
   ]
