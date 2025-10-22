@@ -1,0 +1,63 @@
+{
+  "graphs": [
+    {
+      "id": 301,
+      "label": "small-sparse chain (4v,4e)",
+      "nodes": ["A","B","C","D"],
+      "edges": [
+        {"from":"A","to":"B","weight":3},
+        {"from":"B","to":"C","weight":2},
+        {"from":"C","to":"D","weight":4},
+        {"from":"A","to":"C","weight":5}
+      ]
+    },
+    {
+      "id": 302,
+      "label": "small-sparse star+extra (5v,5e)",
+      "nodes": ["A","B","C","D","E"],
+      "edges": [
+        {"from":"A","to":"B","weight":1},
+        {"from":"A","to":"C","weight":5},
+        {"from":"A","to":"D","weight":3},
+        {"from":"A","to":"E","weight":4},
+        {"from":"C","to":"D","weight":2}
+      ]
+    },
+    {
+      "id": 303,
+      "label": "small-medium cycle+chords (6v,8e)",
+      "nodes": ["A","B","C","D","E","F"],
+      "edges": [
+        {"from":"A","to":"B","weight":6},
+        {"from":"B","to":"C","weight":2},
+        {"from":"C","to":"D","weight":3},
+        {"from":"D","to":"E","weight":5},
+        {"from":"E","to":"F","weight":4},
+        {"from":"F","to":"A","weight":7},
+        {"from":"B","to":"E","weight":1},
+        {"from":"C","to":"F","weight":6}
+      ]
+    },
+    {
+      "id": 304,
+      "label": "small-dense almost-complete (6v,14e)",
+      "nodes": ["A","B","C","D","E","F"],
+      "edges": [
+        {"from":"A","to":"B","weight":4},
+        {"from":"A","to":"C","weight":2},
+        {"from":"A","to":"D","weight":6},
+        {"from":"A","to":"E","weight":7},
+        {"from":"A","to":"F","weight":3},
+        {"from":"B","to":"C","weight":5},
+        {"from":"B","to":"D","weight":1},
+        {"from":"B","to":"E","weight":8},
+        {"from":"C","to":"D","weight":4},
+        {"from":"C","to":"E","weight":6},
+        {"from":"C","to":"F","weight":7},
+        {"from":"D","to":"E","weight":2},
+        {"from":"D","to":"F","weight":3},
+        {"from":"E","to":"F","weight":5}
+      ]
+    }
+  ]
+}

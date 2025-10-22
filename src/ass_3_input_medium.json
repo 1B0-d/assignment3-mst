@@ -1,0 +1,70 @@
+{
+  "graphs": [
+    {
+      "id": 401,
+      "label": "medium-sparse spine+extras (10v,12e)",
+      "nodes": ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10"],
+      "edges": [
+        {"from":"V1","to":"V2","weight":4},
+        {"from":"V2","to":"V3","weight":1},
+        {"from":"V3","to":"V4","weight":3},
+        {"from":"V4","to":"V5","weight":2},
+        {"from":"V5","to":"V6","weight":6},
+        {"from":"V6","to":"V7","weight":5},
+        {"from":"V7","to":"V8","weight":2},
+        {"from":"V8","to":"V9","weight":7},
+        {"from":"V9","to":"V10","weight":3},
+        {"from":"V1","to":"V10","weight":8},
+        {"from":"V3","to":"V7","weight":4},
+        {"from":"V2","to":"V5","weight":6}
+      ]
+    },
+    {
+      "id": 402,
+      "label": "medium-medium ring+chords (12v,18e)",
+      "nodes": ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10","V11","V12"],
+      "edges": [
+        {"from":"V1","to":"V2","weight":2},
+        {"from":"V2","to":"V3","weight":5},
+        {"from":"V3","to":"V4","weight":1},
+        {"from":"V4","to":"V5","weight":4},
+        {"from":"V5","to":"V6","weight":3},
+        {"from":"V6","to":"V7","weight":6},
+        {"from":"V7","to":"V8","weight":2},
+        {"from":"V8","to":"V9","weight":5},
+        {"from":"V9","to":"V10","weight":4},
+        {"from":"V10","to":"V11","weight":7},
+        {"from":"V11","to":"V12","weight":3},
+        {"from":"V12","to":"V1","weight":6},
+        {"from":"V1","to":"V7","weight":5},
+        {"from":"V2","to":"V8","weight":4},
+        {"from":"V3","to":"V9","weight":6},
+        {"from":"V4","to":"V10","weight":2},
+        {"from":"V5","to":"V11","weight":5},
+        {"from":"V6","to":"V12","weight":3}
+      ]
+    },
+    {
+      "id": 403,
+      "label": "medium-disconnected (15v,14e)",
+      "nodes": ["V1","V2","V3","V4","V5","V6","V7","V8","V9","V10","V11","V12","V13","V14","V15"],
+      "edges": [
+        {"from":"V1","to":"V2","weight":2},
+        {"from":"V2","to":"V3","weight":3},
+        {"from":"V3","to":"V4","weight":2},
+        {"from":"V4","to":"V5","weight":4},
+        {"from":"V5","to":"V6","weight":3},
+        {"from":"V6","to":"V7","weight":5},
+        {"from":"V7","to":"V8","weight":2},
+        {"from":"V8","to":"V9","weight":4},
+        {"from":"V9","to":"V10","weight":3},
+        {"from":"V10","to":"V1","weight":6},
+
+        {"from":"V11","to":"V12","weight":1},
+        {"from":"V12","to":"V13","weight":2},
+        {"from":"V13","to":"V14","weight":2},
+        {"from":"V14","to":"V15","weight":3}
+      ]
+    }
+  ]
+}
