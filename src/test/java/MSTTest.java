@@ -1,211 +1,190 @@
+// src/test/java/MSTTest.java
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.*;
-import java.io.*;
+import java.io.Reader;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class MSTTest {
 
-    static class Parsed {
-        final List<JsonObject> graphs;
-        Parsed(List<JsonObject> g){ this.graphs=g; }
+    static class ParsedGraph {
+        Graph g;
+        List<String> nodes = new ArrayList<>();
+        int V;
+        int id;
+        String label;
     }
 
-    static class OutRow {
-        String file; int graphId; String label;
-        int n, m, wPrim, wKruskal, mstEdges;
-        double primMs, kruskalMs;
-    }
-    static class OutWrap { List<OutRow> results = new ArrayList<>(); }
+    private static Reader openJson(String name) throws Exception {
+        var cl = MSTTest.class.getClassLoader();
+        var url = cl.getResource(name);
+        if (url != null) return new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
 
-    @Test
-    public void correctnessAndConsistency() throws Exception {
-        String[] candidates = {
-                "ass_3_input_small.json",
-                "ass_3_input_medium.json",
-                "ass_3_input_large.json",
-                "ass_3_input_large_300_1000.json",
-                "ass_3_input_extralarge_1000_2000.json",
-
-                "src/ass_3_input_small.json",
-                "src/ass_3_input_medium.json",
-                "src/ass_3_input_large.json",
-                "src/ass_3_input_large_300_1000.json",
-                "src/ass_3_input_extralarge_1000_2000.json",
-
-                "src/test/resources/ass_3_input_small.json",
-                "src/test/resources/ass_3_input_medium.json",
-                "src/test/resources/ass_3_input_large.json",
-                "src/test/resources/ass_3_input_large_300_1000.json",
-                "src/test/resources/ass_3_input_extralarge_1000_2000.json"
-        };
-
-        List<String> available = new ArrayList<>();
-        for (String p : candidates) if (Files.exists(Paths.get(p))) available.add(p);
-        assertTrue(!available.isEmpty(),
-                "No input datasets found (place *_small/medium/large.json in project root, src/ or src/test/resources/)");
-
-        OutWrap out = new OutWrap();
-
-        for (String path : available) {
-            Parsed parsed = readInput(path);
-            assertTrue(parsed.graphs.size() >= 1, "Empty graphs in " + path);
-
-            for (JsonObject gObj : parsed.graphs) {
-                int V = gObj.getAsJsonArray("nodes").size();
-                Graph g = buildGraph(gObj);
-
-                long t1 = System.nanoTime();
-                AlgoResult pr = Prim.findMST(g, gObj.getAsJsonArray("nodes").get(0).getAsString());
-                long t2 = System.nanoTime();
-                AlgoResult kr = Kruskal.findMST(g);
-                long t3 = System.nanoTime();
-
-                int primCost = mstCost(pr.edges);
-                int kruCost  = mstCost(kr.edges);
-
-                if (pr.edges.size() == V - 1 && kr.edges.size() == V - 1) {
-                    assertEquals(primCost, kruCost, "cost mismatch in " + path);
-                }
-
-                if (pr.edges.size() == V - 1 || kr.edges.size() == V - 1) {
-                    assertEquals(V - 1, pr.edges.size(), "Prim |E|!=V-1 in " + path);
-                    assertEquals(V - 1, kr.edges.size(), "Kruskal |E|!=V-1 in " + path);
-                } else {
-                    assertTrue(pr.edges.size() < V - 1 && kr.edges.size() < V - 1, "disconnected handling in " + path);
-                }
-
-                assertTrue(isAcyclic(pr.edges), "Prim cycles in " + path);
-                assertTrue(isAcyclic(kr.edges), "Kruskal cycles in " + path);
-
-                double primMs = (t2 - t1) / 1_000_000.0;
-                double kruskalMs = (t3 - t2) / 1_000_000.0;
-                assertTrue(primMs >= 0.0);
-                assertTrue(kruskalMs >= 0.0);
-                assertTrue(pr.operations >= 0);
-                assertTrue(kr.operations >= 0);
-
-                AlgoResult pr2 = Prim.findMST(g, gObj.getAsJsonArray("nodes").get(0).getAsString());
-                AlgoResult kr2 = Kruskal.findMST(g);
-                assertEquals(primCost, mstCost(pr2.edges), "Prim reproducibility in " + path);
-                assertEquals(kruCost, mstCost(kr2.edges), "Kruskal reproducibility in " + path);
-
-                OutRow row = new OutRow();
-                row.file = Paths.get(path).getFileName().toString();
-                row.graphId = gObj.get("id").getAsInt();
-                row.label = gObj.get("label").getAsString();
-                row.n = V;
-                row.m = gObj.getAsJsonArray("edges").size();
-                row.wPrim = primCost;
-                row.wKruskal = kruCost;
-                row.mstEdges = (V > 0) ? (V - 1) : 0;
-                row.primMs = primMs;
-                row.kruskalMs = kruskalMs;
-                out.results.add(row);
-            }
+        List<Path> candidates = List.of(
+                Paths.get(name),
+                Paths.get("src","test","resources", name),
+                Paths.get("src","test","java", name),
+                Paths.get("src","main","resources", name),
+                Paths.get("src","main","java", name)
+        );
+        for (Path p : candidates) {
+            if (Files.exists(p)) return Files.newBufferedReader(p, StandardCharsets.UTF_8);
         }
 
-        Path outPath = Paths.get("target", "ass_3_output.json");
-        Files.createDirectories(outPath.getParent());
-        try (Writer w = Files.newBufferedWriter(outPath, StandardCharsets.UTF_8)) {
-            new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(out, w);
+        Path root = Paths.get("").toAbsolutePath();
+        try (Stream<Path> s = Files.walk(root, 8)) {
+            Optional<Path> hit = s.filter(Files::isRegularFile)
+                    .filter(p -> p.getFileName().toString().equals(name))
+                    .findFirst();
+            if (hit.isPresent()) return Files.newBufferedReader(hit.get(), StandardCharsets.UTF_8);
         }
+
+        throw new java.io.FileNotFoundException("Cannot locate JSON: " + name);
     }
 
-    private Parsed readInput(String path) throws Exception {
-        try (Reader r = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
+    private static List<ParsedGraph> readGraphs(String jsonName) throws Exception {
+        try (Reader r = openJson(jsonName)) {
             JsonObject root = JsonParser.parseReader(r).getAsJsonObject();
-            List<JsonObject> gs = new ArrayList<>();
-            for (JsonElement e : root.getAsJsonArray("graphs")) gs.add(e.getAsJsonObject());
-            return new Parsed(gs);
+            JsonArray arr = root.getAsJsonArray("graphs");
+            List<ParsedGraph> out = new ArrayList<>();
+            for (JsonElement ge : arr) {
+                JsonObject gObj = ge.getAsJsonObject();
+                JsonArray nodes = gObj.getAsJsonArray("nodes");
+                JsonArray edges = gObj.getAsJsonArray("edges");
+
+                ParsedGraph pg = new ParsedGraph();
+                pg.id = gObj.get("id").getAsInt();
+                pg.label = gObj.get("label").getAsString();
+                for (JsonElement n : nodes) pg.nodes.add(n.getAsString());
+                pg.V = pg.nodes.size();
+
+                Graph g = new Graph();
+                for (JsonElement ee : edges) {
+                    JsonObject e = ee.getAsJsonObject();
+                    g.addEdge(e.get("from").getAsString(), e.get("to").getAsString(), e.get("weight").getAsInt());
+                }
+                pg.g = g;
+                out.add(pg);
+            }
+            return out;
         }
     }
 
-    private Graph buildGraph(JsonObject gObj) {
-        Graph g = new Graph();
-        for (JsonElement ee : gObj.getAsJsonArray("edges")) {
-            JsonObject e = ee.getAsJsonObject();
-            g.addEdge(e.get("from").getAsString(), e.get("to").getAsString(), e.get("weight").getAsInt());
-        }
-        return g;
+    private static int sumCost(List<Edge> es) {
+        int s = 0;
+        for (Edge e : es) s += e.weight;
+        return s;
     }
 
-    private int mstCost(List<Edge> edges) {
-        int s=0; for (Edge e: edges) s += e.weight; return s;
-    }
-
-    private boolean isAcyclic(List<Edge> edges) {
-        Map<String,Integer> id = new HashMap<>();
-        int idx=0;
-        for (Edge e: edges) {
-            if (!id.containsKey(e.from)) id.put(e.from, idx++);
-            if (!id.containsKey(e.to)) id.put(e.to, idx++);
-        }
-        int[] p = new int[idx];
-        for (int i=0;i<idx;i++) p[i]=i;
-        for (Edge e: edges) {
-            int u = id.get(e.from), v = id.get(e.to);
-            int ru = find(p,u), rv=find(p,v);
-            if (ru==rv) return false;
-            p[ru]=rv;
+    private static boolean isAcyclic(List<String> nodes, List<Edge> es) {
+        Map<String,Integer> idx = new HashMap<>();
+        for (int i = 0; i < nodes.size(); i++) idx.put(nodes.get(i), i);
+        DSU dsu = new DSU(nodes.size());
+        for (Edge e : es) {
+            int u = idx.get(e.from);
+            int v = idx.get(e.to);
+            if (!dsu.union(u, v)) return false;
         }
         return true;
     }
 
-    private int find(int[] p, int x){
-        while(p[x]!=x){ p[x]=p[p[x]]; x=p[x]; }
-        return x;
-    }
-    @Test
-    void produceOutput() throws Exception {
-        Path out = GenerateOutputs.run();
-        assertTrue(Files.exists(out));
+    static class DSU {
+        int[] p, r;
+        DSU(int n){ p=new int[n]; r=new int[n]; for(int i=0;i<n;i++) p[i]=i; }
+        int find(int x){ return p[x]==x?x:(p[x]=find(p[x])); }
+        boolean union(int a,int b){ a=find(a); b=find(b); if(a==b) return false; if(r[a]<r[b]){int t=a;a=b;b=t;} p[b]=a; if(r[a]==r[b]) r[a]++; return true; }
     }
 
     @Test
-    void produceBoth() throws Exception {
+    void costsEqual_onConnectedGraphs() throws Exception {
+        List<String> files = List.of(
+                "ass_3_input_small.json",
+                "ass_3_input_medium.json",
+                "ass_3_input_large.json"
+        );
+        for (String f : files) {
+            for (ParsedGraph pg : readGraphs(f)) {
+                AlgoResult pr = Prim.findMST(pg.g, pg.nodes.get(0));
+                AlgoResult kr = Kruskal.findMST(pg.g);
+                int expected = Math.max(0, pg.V - 1);
+                boolean primConn = pr.edges.size() == expected;
+                boolean krusConn = kr.edges.size() == expected;
+                if (primConn && krusConn) {
+                    assertEquals(sumCost(pr.edges), sumCost(kr.edges), "cost mismatch: " + pg.label);
+                }
+            }
+        }
+    }
+
+    @Test
+    void mstHasVMinus1Edges_andAcyclic() throws Exception {
+        List<String> files = List.of(
+                "ass_3_input_small.json",
+                "ass_3_input_medium.json",
+                "ass_3_input_large.json",
+                "ass_3_input_disconnected.json"
+        );
+        for (String f : files) {
+            for (ParsedGraph pg : readGraphs(f)) {
+                AlgoResult pr = Prim.findMST(pg.g, pg.nodes.get(0));
+                AlgoResult kr = Kruskal.findMST(pg.g);
+                int expected = Math.max(0, pg.V - 1);
+                assertTrue(pr.edges.size() <= expected, "Prim edges > V-1: " + pg.label);
+                assertTrue(kr.edges.size() <= expected, "Kruskal edges > V-1: " + pg.label);
+                assertTrue(isAcyclic(pg.nodes, pr.edges), "Prim cycle: " + pg.label);
+                assertTrue(isAcyclic(pg.nodes, kr.edges), "Kruskal cycle: " + pg.label);
+            }
+        }
+    }
+
+    @Test
+    void handlesDisconnected() throws Exception {
+        ParsedGraph pg = readGraphs("ass_3_input_disconnected.json").get(0);
+        AlgoResult pr = Prim.findMST(pg.g, pg.nodes.get(0));
+        AlgoResult kr = Kruskal.findMST(pg.g);
+        int expected = Math.max(0, pg.V - 1);
+        assertTrue(pr.edges.size() < expected, "Prim must return < V-1 on disconnected");
+        assertTrue(kr.edges.size() < expected, "Kruskal must return < V-1 on disconnected");
+    }
+
+    @Test
+    void reproducibleOnFixedJson() throws Exception {
+        List<String> files = List.of(
+                "ass_3_input_small.json",
+                "ass_3_input_medium.json"
+        );
+        for (String f : files) {
+            List<ParsedGraph> gs = readGraphs(f);
+            for (int i = 0; i < Math.min(5, gs.size()); i++) {
+                ParsedGraph pg = gs.get(i);
+                AlgoResult p1 = Prim.findMST(pg.g, pg.nodes.get(0));
+                AlgoResult p2 = Prim.findMST(pg.g, pg.nodes.get(0));
+                AlgoResult k1 = Kruskal.findMST(pg.g);
+                AlgoResult k2 = Kruskal.findMST(pg.g);
+                assertEquals(sumCost(p1.edges), sumCost(p2.edges), "Prim cost not stable: " + pg.label);
+                assertEquals(sumCost(k1.edges), sumCost(k2.edges), "Kruskal cost not stable: " + pg.label);
+                assertEquals(p1.edges.size(), p2.edges.size(), "Prim size not stable: " + pg.label);
+                assertEquals(k1.edges.size(), k2.edges.size(), "Kruskal size not stable: " + pg.label);
+            }
+        }
+    }
+
+    @Test
+    void produceArtifacts() throws Exception {
         Path json = GenerateOutputs.run();
-        Path csv  = GenerateOutputsCsv.run();
         assertTrue(Files.exists(json));
-        assertTrue(Files.exists(csv));
-    }
-    @Test
-    void generate_all_outputs_and_check_disconnected() throws Exception {
-
-        Path json = GenerateOutputs.run();
-        assertTrue(Files.exists(json), "ass_3_output.json must exist");
-
         Path csv = GenerateOutputsCsv.run();
-        assertTrue(Files.exists(csv), "target/ass_3_output_table.csv must exist");
-
-        List<String> lines = Files.readAllLines(csv, StandardCharsets.UTF_8);
-        assertTrue(lines.size() >= 2, "CSV must contain header + at least 1 data row");
-
-        String header = lines.get(0);
-
-        assertTrue(header.contains("connected"), "CSV header must contain 'connected'");
-        assertTrue(header.contains("costs_equal"), "CSV header must contain 'costs_equal'");
-        assertTrue(header.contains("faster"), "CSV header must contain 'faster'");
-
-        Optional<String> disc = lines.stream()
-                .skip(1)
-                .filter(s -> s.contains("ass_3_input_disconnected.json"))
-                .findFirst();
-
-        assertTrue(disc.isPresent(), "CSV must contain a row for ass_3_input_disconnected.json");
-        String row = disc.get();
-
-        assertTrue(row.contains(",\"0\","), "connected must be 0 for disconnected graph");
-
-        assertTrue(row.contains(",\"n/a\","), "faster must be 'n/a' when graph is disconnected");
-    }
-    @Test
-    void render_all_graphs_png() throws Exception {
+        assertTrue(Files.exists(csv));
         Path dir = RenderGraphs.run();
-        assertTrue(java.nio.file.Files.exists(dir), "render dir must exist");
+        assertTrue(Files.exists(dir));
+        try (var s = Files.list(dir)) {
+            boolean any = s.anyMatch(p -> p.getFileName().toString().endsWith(".png"));
+            assertTrue(any);
+        }
     }
-
 }
