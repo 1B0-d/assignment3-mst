@@ -9,7 +9,7 @@
         "edges": 4
       },
       "prim": {
-        "execution_time_ms": 0.0104,
+        "execution_time_ms": 0.097,
         "operations": 10,
         "total_cost": 10,
         "connected": false,
@@ -37,7 +37,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.004,
+        "execution_time_ms": 0.0213,
         "operations": 17,
         "total_cost": 10,
         "connected": false,
@@ -66,8 +66,8 @@
       },
       "comparison": {
         "cost_equal": false,
-        "prim_ms": 0.0104,
-        "kruskal_ms": 0.004,
+        "prim_ms": 0.097,
+        "kruskal_ms": 0.0213,
         "faster": "n/a"
       }
     },
@@ -80,7 +80,7 @@
         "edges": 449
       },
       "prim": {
-        "execution_time_ms": 0.1249,
+        "execution_time_ms": 3.1801,
         "operations": 699,
         "total_cost": 1219,
         "connected": true,
@@ -1583,7 +1583,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0904,
+        "execution_time_ms": 1.0671,
         "operations": 4147,
         "total_cost": 1219,
         "connected": true,
@@ -3087,8 +3087,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.1249,
-        "kruskal_ms": 0.0904,
+        "prim_ms": 3.1801,
+        "kruskal_ms": 1.0671,
         "faster": "kruskal"
       }
     },
@@ -3101,7 +3101,7 @@
         "edges": 5051
       },
       "prim": {
-        "execution_time_ms": 0.936,
+        "execution_time_ms": 9.5077,
         "operations": 1733,
         "total_cost": 511,
         "connected": true,
@@ -5354,7 +5354,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.6654,
+        "execution_time_ms": 7.016,
         "operations": 39233,
         "total_cost": 511,
         "connected": true,
@@ -7608,8 +7608,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.936,
-        "kruskal_ms": 0.6654,
+        "prim_ms": 9.5077,
+        "kruskal_ms": 7.016,
         "faster": "kruskal"
       }
     },
@@ -7622,7 +7622,7 @@
         "edges": 16173
       },
       "prim": {
-        "execution_time_ms": 3.7296,
+        "execution_time_ms": 23.9211,
         "operations": 2356,
         "total_cost": 600,
         "connected": true,
@@ -10625,7 +10625,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 2.502,
+        "execution_time_ms": 9.0952,
         "operations": 118997,
         "total_cost": 600,
         "connected": true,
@@ -13629,8 +13629,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 3.7296,
-        "kruskal_ms": 2.502,
+        "prim_ms": 23.9211,
+        "kruskal_ms": 9.0952,
         "faster": "kruskal"
       }
     },
@@ -13643,7 +13643,7 @@
         "edges": 11235
       },
       "prim": {
-        "execution_time_ms": 2.3067,
+        "execution_time_ms": 12.505,
         "operations": 2886,
         "total_cost": 781,
         "connected": true,
@@ -17396,7 +17396,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 1.6265,
+        "execution_time_ms": 6.9411,
         "operations": 85367,
         "total_cost": 781,
         "connected": true,
@@ -21150,8 +21150,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 2.3067,
-        "kruskal_ms": 1.6265,
+        "prim_ms": 12.505,
+        "kruskal_ms": 6.9411,
         "faster": "kruskal"
       }
     },
@@ -21164,7 +21164,7 @@
         "edges": 24273
       },
       "prim": {
-        "execution_time_ms": 6.1049,
+        "execution_time_ms": 45.4107,
         "operations": 3490,
         "total_cost": 901,
         "connected": true,
@@ -25667,7 +25667,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 3.3448,
+        "execution_time_ms": 22.1684,
         "operations": 180910,
         "total_cost": 901,
         "connected": true,
@@ -30171,8 +30171,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 6.1049,
-        "kruskal_ms": 3.3448,
+        "prim_ms": 45.4107,
+        "kruskal_ms": 22.1684,
         "faster": "kruskal"
       }
     },
@@ -30185,7 +30185,7 @@
         "edges": 1199
       },
       "prim": {
-        "execution_time_ms": 0.3576,
+        "execution_time_ms": 2.5044,
         "operations": 2156,
         "total_cost": 4742,
         "connected": true,
@@ -35188,7 +35188,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.1794,
+        "execution_time_ms": 1.8611,
         "operations": 11694,
         "total_cost": 4742,
         "connected": true,
@@ -40192,8 +40192,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.3576,
-        "kruskal_ms": 0.1794,
+        "prim_ms": 2.5044,
+        "kruskal_ms": 1.8611,
         "faster": "kruskal"
       }
     },
@@ -40206,7 +40206,7 @@
         "edges": 39
       },
       "prim": {
-        "execution_time_ms": 0.0205,
+        "execution_time_ms": 0.2003,
         "operations": 67,
         "total_cost": 115,
         "connected": true,
@@ -40359,7 +40359,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0191,
+        "execution_time_ms": 0.1731,
         "operations": 265,
         "total_cost": 115,
         "connected": true,
@@ -40513,8 +40513,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0205,
-        "kruskal_ms": 0.0191,
+        "prim_ms": 0.2003,
+        "kruskal_ms": 0.1731,
         "faster": "kruskal"
       }
     },
@@ -40527,7 +40527,7 @@
         "edges": 247
       },
       "prim": {
-        "execution_time_ms": 0.1057,
+        "execution_time_ms": 0.6707,
         "operations": 148,
         "total_cost": 70,
         "connected": true,
@@ -40755,7 +40755,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0525,
+        "execution_time_ms": 0.9562,
         "operations": 1699,
         "total_cost": 70,
         "connected": true,
@@ -40984,9 +40984,9 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.1057,
-        "kruskal_ms": 0.0525,
-        "faster": "kruskal"
+        "prim_ms": 0.6707,
+        "kruskal_ms": 0.9562,
+        "faster": "prim"
       }
     },
     {
@@ -40998,7 +40998,7 @@
         "edges": 1327
       },
       "prim": {
-        "execution_time_ms": 0.267,
+        "execution_time_ms": 2.3308,
         "operations": 239,
         "total_cost": 61,
         "connected": true,
@@ -41301,7 +41301,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.2424,
+        "execution_time_ms": 1.8019,
         "operations": 9669,
         "total_cost": 61,
         "connected": true,
@@ -41605,8 +41605,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.267,
-        "kruskal_ms": 0.2424,
+        "prim_ms": 2.3308,
+        "kruskal_ms": 1.8019,
         "faster": "kruskal"
       }
     },
@@ -41619,7 +41619,7 @@
         "edges": 790
       },
       "prim": {
-        "execution_time_ms": 0.1805,
+        "execution_time_ms": 2.7486,
         "operations": 299,
         "total_cost": 92,
         "connected": true,
@@ -42022,7 +42022,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.1524,
+        "execution_time_ms": 1.376,
         "operations": 5714,
         "total_cost": 92,
         "connected": true,
@@ -42426,8 +42426,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.1805,
-        "kruskal_ms": 0.1524,
+        "prim_ms": 2.7486,
+        "kruskal_ms": 1.376,
         "faster": "kruskal"
       }
     },
@@ -42440,7 +42440,7 @@
         "edges": 129
       },
       "prim": {
-        "execution_time_ms": 0.0547,
+        "execution_time_ms": 0.466,
         "operations": 219,
         "total_cost": 477,
         "connected": true,
@@ -42943,7 +42943,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0235,
+        "execution_time_ms": 0.1214,
         "operations": 1084,
         "total_cost": 477,
         "connected": true,
@@ -43447,8 +43447,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0547,
-        "kruskal_ms": 0.0235,
+        "prim_ms": 0.466,
+        "kruskal_ms": 0.1214,
         "faster": "kruskal"
       }
     },
@@ -43461,7 +43461,7 @@
         "edges": 1751
       },
       "prim": {
-        "execution_time_ms": 0.2483,
+        "execution_time_ms": 10.2703,
         "operations": 557,
         "total_cost": 150,
         "connected": true,
@@ -44164,7 +44164,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.2581,
+        "execution_time_ms": 3.3019,
         "operations": 13300,
         "total_cost": 150,
         "connected": true,
@@ -44868,9 +44868,9 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.2483,
-        "kruskal_ms": 0.2581,
-        "faster": "prim"
+        "prim_ms": 10.2703,
+        "kruskal_ms": 3.3019,
+        "faster": "kruskal"
       }
     },
     {
@@ -44882,7 +44882,7 @@
         "edges": 4833
       },
       "prim": {
-        "execution_time_ms": 0.7788,
+        "execution_time_ms": 3.1072,
         "operations": 735,
         "total_cost": 179,
         "connected": true,
@@ -45785,7 +45785,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.7844,
+        "execution_time_ms": 4.7923,
         "operations": 35554,
         "total_cost": 179,
         "connected": true,
@@ -46689,8 +46689,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.7788,
-        "kruskal_ms": 0.7844,
+        "prim_ms": 3.1072,
+        "kruskal_ms": 4.7923,
         "faster": "prim"
       }
     },
@@ -46703,7 +46703,7 @@
         "edges": 4336
       },
       "prim": {
-        "execution_time_ms": 0.801,
+        "execution_time_ms": 12.2128,
         "operations": 850,
         "total_cost": 225,
         "connected": true,
@@ -47806,7 +47806,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.5615,
+        "execution_time_ms": 3.8089,
         "operations": 32623,
         "total_cost": 225,
         "connected": true,
@@ -48910,8 +48910,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.801,
-        "kruskal_ms": 0.5615,
+        "prim_ms": 12.2128,
+        "kruskal_ms": 3.8089,
         "faster": "kruskal"
       }
     },
@@ -48924,7 +48924,7 @@
         "edges": 289
       },
       "prim": {
-        "execution_time_ms": 0.0876,
+        "execution_time_ms": 1.1863,
         "operations": 538,
         "total_cost": 1274,
         "connected": true,
@@ -50227,7 +50227,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.041,
+        "execution_time_ms": 0.4294,
         "operations": 2680,
         "total_cost": 1274,
         "connected": true,
@@ -51531,8 +51531,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0876,
-        "kruskal_ms": 0.041,
+        "prim_ms": 1.1863,
+        "kruskal_ms": 0.4294,
         "faster": "kruskal"
       }
     },
@@ -51545,7 +51545,7 @@
         "edges": 8073
       },
       "prim": {
-        "execution_time_ms": 1.1983,
+        "execution_time_ms": 16.7729,
         "operations": 1167,
         "total_cost": 300,
         "connected": true,
@@ -53048,7 +53048,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 1.1965,
+        "execution_time_ms": 5.5587,
         "operations": 59228,
         "total_cost": 300,
         "connected": true,
@@ -54552,8 +54552,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 1.1983,
-        "kruskal_ms": 1.1965,
+        "prim_ms": 16.7729,
+        "kruskal_ms": 5.5587,
         "faster": "kruskal"
       }
     },
@@ -54566,7 +54566,7 @@
         "edges": 8
       },
       "prim": {
-        "execution_time_ms": 0.0063,
+        "execution_time_ms": 0.2767,
         "operations": 12,
         "total_cost": 14,
         "connected": true,
@@ -54594,7 +54594,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0025,
+        "execution_time_ms": 0.0131,
         "operations": 32,
         "total_cost": 14,
         "connected": true,
@@ -54623,8 +54623,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0063,
-        "kruskal_ms": 0.0025,
+        "prim_ms": 0.2767,
+        "kruskal_ms": 0.0131,
         "faster": "kruskal"
       }
     },
@@ -54637,7 +54637,7 @@
         "edges": 8
       },
       "prim": {
-        "execution_time_ms": 0.0029,
+        "execution_time_ms": 0.0704,
         "operations": 14,
         "total_cost": 23,
         "connected": false,
@@ -54670,7 +54670,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0012,
+        "execution_time_ms": 0.0071,
         "operations": 35,
         "total_cost": 23,
         "connected": false,
@@ -54704,8 +54704,8 @@
       },
       "comparison": {
         "cost_equal": false,
-        "prim_ms": 0.0029,
-        "kruskal_ms": 0.0012,
+        "prim_ms": 0.0704,
+        "kruskal_ms": 0.0071,
         "faster": "n/a"
       }
     },
@@ -54718,7 +54718,7 @@
         "edges": 28
       },
       "prim": {
-        "execution_time_ms": 0.0046,
+        "execution_time_ms": 0.0852,
         "operations": 25,
         "total_cost": 17,
         "connected": true,
@@ -54766,7 +54766,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0043,
+        "execution_time_ms": 0.0162,
         "operations": 125,
         "total_cost": 17,
         "connected": true,
@@ -54815,8 +54815,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0046,
-        "kruskal_ms": 0.0043,
+        "prim_ms": 0.0852,
+        "kruskal_ms": 0.0162,
         "faster": "kruskal"
       }
     },
@@ -54829,7 +54829,7 @@
         "edges": 13
       },
       "prim": {
-        "execution_time_ms": 0.0035,
+        "execution_time_ms": 0.0373,
         "operations": 23,
         "total_cost": 31,
         "connected": true,
@@ -54887,7 +54887,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0015,
+        "execution_time_ms": 0.005,
         "operations": 66,
         "total_cost": 31,
         "connected": true,
@@ -54946,8 +54946,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0035,
-        "kruskal_ms": 0.0015,
+        "prim_ms": 0.0373,
+        "kruskal_ms": 0.005,
         "faster": "kruskal"
       }
     },
@@ -54960,7 +54960,7 @@
         "edges": 13
       },
       "prim": {
-        "execution_time_ms": 0.0033,
+        "execution_time_ms": 0.1487,
         "operations": 23,
         "total_cost": 50,
         "connected": false,
@@ -55018,7 +55018,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0016,
+        "execution_time_ms": 0.0069,
         "operations": 66,
         "total_cost": 50,
         "connected": false,
@@ -55077,8 +55077,8 @@
       },
       "comparison": {
         "cost_equal": false,
-        "prim_ms": 0.0033,
-        "kruskal_ms": 0.0016,
+        "prim_ms": 0.1487,
+        "kruskal_ms": 0.0069,
         "faster": "n/a"
       }
     },
@@ -55091,7 +55091,7 @@
         "edges": 84
       },
       "prim": {
-        "execution_time_ms": 0.0094,
+        "execution_time_ms": 0.2474,
         "operations": 47,
         "total_cost": 23,
         "connected": true,
@@ -55169,7 +55169,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0145,
+        "execution_time_ms": 0.3279,
         "operations": 474,
         "total_cost": 23,
         "connected": true,
@@ -55248,8 +55248,8 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0094,
-        "kruskal_ms": 0.0145,
+        "prim_ms": 0.2474,
+        "kruskal_ms": 0.3279,
         "faster": "prim"
       }
     },
@@ -55262,7 +55262,7 @@
         "edges": 122
       },
       "prim": {
-        "execution_time_ms": 0.0126,
+        "execution_time_ms": 0.1543,
         "operations": 68,
         "total_cost": 25,
         "connected": true,
@@ -55355,7 +55355,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0193,
+        "execution_time_ms": 0.1247,
         "operations": 758,
         "total_cost": 25,
         "connected": true,
@@ -55449,9 +55449,9 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0126,
-        "kruskal_ms": 0.0193,
-        "faster": "prim"
+        "prim_ms": 0.1543,
+        "kruskal_ms": 0.1247,
+        "faster": "kruskal"
       }
     },
     {
@@ -55463,7 +55463,7 @@
         "edges": 23
       },
       "prim": {
-        "execution_time_ms": 0.0056,
+        "execution_time_ms": 0.0645,
         "operations": 41,
         "total_cost": 88,
         "connected": false,
@@ -55561,7 +55561,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0035,
+        "execution_time_ms": 0.0307,
         "operations": 136,
         "total_cost": 88,
         "connected": false,
@@ -55660,8 +55660,8 @@
       },
       "comparison": {
         "cost_equal": false,
-        "prim_ms": 0.0056,
-        "kruskal_ms": 0.0035,
+        "prim_ms": 0.0645,
+        "kruskal_ms": 0.0307,
         "faster": "n/a"
       }
     },
@@ -55674,7 +55674,7 @@
         "edges": 130
       },
       "prim": {
-        "execution_time_ms": 0.0118,
+        "execution_time_ms": 0.2569,
         "operations": 84,
         "total_cost": 42,
         "connected": true,
@@ -55807,7 +55807,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0157,
+        "execution_time_ms": 0.0963,
         "operations": 825,
         "total_cost": 42,
         "connected": true,
@@ -55941,9 +55941,9 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0118,
-        "kruskal_ms": 0.0157,
-        "faster": "prim"
+        "prim_ms": 0.2569,
+        "kruskal_ms": 0.0963,
+        "faster": "kruskal"
       }
     },
     {
@@ -55955,7 +55955,7 @@
         "edges": 348
       },
       "prim": {
-        "execution_time_ms": 0.0316,
+        "execution_time_ms": 0.5325,
         "operations": 113,
         "total_cost": 32,
         "connected": true,
@@ -56108,7 +56108,7 @@
         ]
       },
       "kruskal": {
-        "execution_time_ms": 0.0456,
+        "execution_time_ms": 0.2283,
         "operations": 2393,
         "total_cost": 32,
         "connected": true,
@@ -56262,9 +56262,9 @@
       },
       "comparison": {
         "cost_equal": true,
-        "prim_ms": 0.0316,
-        "kruskal_ms": 0.0456,
-        "faster": "prim"
+        "prim_ms": 0.5325,
+        "kruskal_ms": 0.2283,
+        "faster": "kruskal"
       }
     }
   ]
