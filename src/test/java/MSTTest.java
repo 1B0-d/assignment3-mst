@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
@@ -13,16 +14,41 @@ public class MSTTest {
         Parsed(List<JsonObject> g){ this.graphs=g; }
     }
 
+    static class OutRow {
+        String file; int graphId; String label;
+        int n, m, wPrim, wKruskal, mstEdges;
+        double primMs, kruskalMs;
+    }
+    static class OutWrap { List<OutRow> results = new ArrayList<>(); }
+
     @Test
     public void correctnessAndConsistency() throws Exception {
         String[] candidates = {
-                "ass_3_input_small.json","ass_3_input_medium.json","ass_3_input_large.json",
-                "src/ass_3_input_small.json","src/ass_3_input_medium.json","src/ass_3_input_large.json"
+                "ass_3_input_small.json",
+                "ass_3_input_medium.json",
+                "ass_3_input_large.json",
+                "ass_3_input_large_300_1000.json",
+                "ass_3_input_extralarge_1000_2000.json",
+
+                "src/ass_3_input_small.json",
+                "src/ass_3_input_medium.json",
+                "src/ass_3_input_large.json",
+                "src/ass_3_input_large_300_1000.json",
+                "src/ass_3_input_extralarge_1000_2000.json",
+
+                "src/test/resources/ass_3_input_small.json",
+                "src/test/resources/ass_3_input_medium.json",
+                "src/test/resources/ass_3_input_large.json",
+                "src/test/resources/ass_3_input_large_300_1000.json",
+                "src/test/resources/ass_3_input_extralarge_1000_2000.json"
         };
 
         List<String> available = new ArrayList<>();
         for (String p : candidates) if (Files.exists(Paths.get(p))) available.add(p);
-        assertTrue(!available.isEmpty(), "No input datasets found (place *_small/medium/large.json in project root or src/)");
+        assertTrue(!available.isEmpty(),
+                "No input datasets found (place *_small/medium/large.json in project root, src/ or src/test/resources/)");
+
+        OutWrap out = new OutWrap();
 
         for (String path : available) {
             Parsed parsed = readInput(path);
@@ -66,12 +92,31 @@ public class MSTTest {
                 AlgoResult kr2 = Kruskal.findMST(g);
                 assertEquals(primCost, mstCost(pr2.edges), "Prim reproducibility in " + path);
                 assertEquals(kruCost, mstCost(kr2.edges), "Kruskal reproducibility in " + path);
+
+                OutRow row = new OutRow();
+                row.file = Paths.get(path).getFileName().toString();
+                row.graphId = gObj.get("id").getAsInt();
+                row.label = gObj.get("label").getAsString();
+                row.n = V;
+                row.m = gObj.getAsJsonArray("edges").size();
+                row.wPrim = primCost;
+                row.wKruskal = kruCost;
+                row.mstEdges = (V > 0) ? (V - 1) : 0;
+                row.primMs = primMs;
+                row.kruskalMs = kruskalMs;
+                out.results.add(row);
             }
+        }
+
+        Path outPath = Paths.get("target", "ass_3_output.json");
+        Files.createDirectories(outPath.getParent());
+        try (Writer w = Files.newBufferedWriter(outPath, StandardCharsets.UTF_8)) {
+            new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(out, w);
         }
     }
 
     private Parsed readInput(String path) throws Exception {
-        try (Reader r = Files.newBufferedReader(Paths.get(path))) {
+        try (Reader r = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             JsonObject root = JsonParser.parseReader(r).getAsJsonObject();
             List<JsonObject> gs = new ArrayList<>();
             for (JsonElement e : root.getAsJsonArray("graphs")) gs.add(e.getAsJsonObject());
@@ -113,5 +158,18 @@ public class MSTTest {
     private int find(int[] p, int x){
         while(p[x]!=x){ p[x]=p[p[x]]; x=p[x]; }
         return x;
+    }
+    @Test
+    void produceOutput() throws Exception {
+        Path out = GenerateOutputs.run();
+        assertTrue(Files.exists(out));
+    }
+
+    @Test
+    void produceBoth() throws Exception {
+        Path json = GenerateOutputs.run();
+        Path csv  = GenerateOutputsCsv.run();
+        assertTrue(Files.exists(json));
+        assertTrue(Files.exists(csv));
     }
 }
