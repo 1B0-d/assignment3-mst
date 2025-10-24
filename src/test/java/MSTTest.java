@@ -172,4 +172,40 @@ public class MSTTest {
         assertTrue(Files.exists(json));
         assertTrue(Files.exists(csv));
     }
+    @Test
+    void generate_all_outputs_and_check_disconnected() throws Exception {
+
+        Path json = GenerateOutputs.run();
+        assertTrue(Files.exists(json), "ass_3_output.json must exist");
+
+        Path csv = GenerateOutputsCsv.run();
+        assertTrue(Files.exists(csv), "target/ass_3_output_table.csv must exist");
+
+        List<String> lines = Files.readAllLines(csv, StandardCharsets.UTF_8);
+        assertTrue(lines.size() >= 2, "CSV must contain header + at least 1 data row");
+
+        String header = lines.get(0);
+
+        assertTrue(header.contains("connected"), "CSV header must contain 'connected'");
+        assertTrue(header.contains("costs_equal"), "CSV header must contain 'costs_equal'");
+        assertTrue(header.contains("faster"), "CSV header must contain 'faster'");
+
+        Optional<String> disc = lines.stream()
+                .skip(1)
+                .filter(s -> s.contains("ass_3_input_disconnected.json"))
+                .findFirst();
+
+        assertTrue(disc.isPresent(), "CSV must contain a row for ass_3_input_disconnected.json");
+        String row = disc.get();
+
+        assertTrue(row.contains(",\"0\","), "connected must be 0 for disconnected graph");
+
+        assertTrue(row.contains(",\"n/a\","), "faster must be 'n/a' when graph is disconnected");
+    }
+    @Test
+    void render_all_graphs_png() throws Exception {
+        Path dir = RenderGraphs.run();
+        assertTrue(java.nio.file.Files.exists(dir), "render dir must exist");
+    }
+
 }

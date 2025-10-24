@@ -1,4 +1,4 @@
-// src/main/java/GenerateOutputsCsvTable.java
+// src/main/java/GenerateOutputsCsv.java
 import com.google.gson.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +23,7 @@ public class GenerateOutputsCsv {
                     "vertices","edges_count","expected_mst_edges",
                     "prim_cost","prim_edges","prim_ops","prim_time_ms",
                     "kruskal_cost","kruskal_edges","kruskal_ops","kruskal_time_ms",
+                    "faster",
                     "connected","costs_equal"
             ));
             w.newLine();
@@ -55,13 +56,16 @@ public class GenerateOutputsCsv {
                     double primMs    = (t2 - t1) / 1_000_000.0;
                     double kruskalMs = (t3 - t2) / 1_000_000.0;
 
-                    int primEdgesCnt   = pr.edges.size();
-                    int kruskalEdgesCnt= kr.edges.size();
-                    int primCost       = sumWeight(pr.edges);
-                    int kruskalCost    = sumWeight(kr.edges);
+                    int primEdgesCnt     = pr.edges.size();
+                    int kruskalEdgesCnt  = kr.edges.size();
+                    int primCost         = sumWeight(pr.edges);
+                    int kruskalCost      = sumWeight(kr.edges);
 
-                    boolean connected  = (primEdgesCnt == expected) && (kruskalEdgesCnt == expected);
-                    boolean costsEqual = connected && (primCost == kruskalCost);
+                    boolean primConn     = (primEdgesCnt == expected);
+                    boolean krusConn     = (kruskalEdgesCnt == expected);
+                    boolean connected    = primConn && krusConn;
+                    boolean costsEqual   = connected && (primCost == kruskalCost);
+                    String faster        = connected ? (primMs <= kruskalMs ? "prim" : "kruskal") : "n/a";
 
                     String[] row = new String[] {
                             csv(p.getFileName().toString()),
@@ -78,6 +82,7 @@ public class GenerateOutputsCsv {
                             csv(String.valueOf(kruskalEdgesCnt)),
                             csv(String.valueOf(Math.max(0, kr.operations))),
                             csv(fmtMs7(kruskalMs)),
+                            csv(faster),
                             csv(connected ? "1" : "0"),
                             csv(costsEqual ? "1" : "0")
                     };

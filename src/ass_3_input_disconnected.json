@@ -1,0 +1,38 @@
+{
+  "graphs": [
+    {
+      "id": 999,
+      "label": "disconnected (6v,4e) — 2 components",
+      "nodes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "edges": [
+        {
+          "from": "A",
+          "to": "B",
+          "weight": 3
+        },
+        {
+          "from": "B",
+          "to": "C",
+          "weight": 2
+        },
+        {
+          "from": "D",
+          "to": "E",
+          "weight": 1
+        },
+        {
+          "from": "E",
+          "to": "F",
+          "weight": 4
+        }
+      ]
+    }
+  ]
+}

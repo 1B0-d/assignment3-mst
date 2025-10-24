@@ -8,16 +8,39 @@ import java.util.stream.Collectors;
 
 public class GenerateOutputs {
 
+    static class EdgeOut {
+        String from, to;
+        int weight;
+        EdgeOut(String f, String t, int w){ this.from=f; this.to=t; this.weight=w; }
+    }
+    static class AlgoOut {
+        double execution_time_ms;
+        long operations;
+        int total_cost;
+        boolean connected;
+        List<EdgeOut> mst_edges = new ArrayList<>();
+    }
+    static class ResultOut {
+        String file;
+        int graph_id;
+        String label;
+        Map<String,Integer> input_stats = new LinkedHashMap<>();
+        AlgoOut prim = new AlgoOut();
+        AlgoOut kruskal = new AlgoOut();
+        Map<String,Object> comparison = new LinkedHashMap<>();
+    }
+    static class Bundle {
+        List<ResultOut> results = new ArrayList<>();
+    }
+
     public static void main(String[] args) throws Exception { run(); }
 
     public static Path run() throws Exception {
         List<Path> inputs = findInputs();
         if (inputs.isEmpty()) throw new IllegalStateException("No ass_3_input_*.json found");
 
-        StringBuilder out = new StringBuilder();
-        out.append("{\n  \"results\": [\n");
+        Bundle bundle = new Bundle();
 
-        boolean firstResult = true;
         for (Path p : inputs) {
             JsonObject root = readJson(p);
             JsonArray graphs = root.getAsJsonArray("graphs");
@@ -28,6 +51,8 @@ public class GenerateOutputs {
                 JsonArray nodes = gObj.getAsJsonArray("nodes");
                 JsonArray edges = gObj.getAsJsonArray("edges");
                 int V = nodes.size();
+                int M = edges.size();
+                int expected = Math.max(0, V - 1);
 
                 Graph g = new Graph();
                 for (JsonElement ee : edges) {
@@ -35,59 +60,62 @@ public class GenerateOutputs {
                     g.addEdge(e.get("from").getAsString(), e.get("to").getAsString(), e.get("weight").getAsInt());
                 }
 
+
                 long t1 = System.nanoTime();
                 AlgoResult pr = Prim.findMST(g, nodes.get(0).getAsString());
                 long t2 = System.nanoTime();
+
                 AlgoResult kr = Kruskal.findMST(g);
                 long t3 = System.nanoTime();
 
                 double primMs    = (t2 - t1) / 1_000_000.0;
                 double kruskalMs = (t3 - t2) / 1_000_000.0;
 
-                List<Edge> primEdges    = sortEdgesForPrint(pr.edges);
-                List<Edge> kruskalEdges = sortEdgesForPrint(kr.edges);
+                int primEdgesCnt     = pr.edges.size();
+                int kruskalEdgesCnt  = kr.edges.size();
+                int primCost         = sumWeight(pr.edges);
+                int kruskalCost      = sumWeight(kr.edges);
 
-                int wP = sumWeight(primEdges);
-                int wK = sumWeight(kruskalEdges);
+                boolean primConn     = (primEdgesCnt == expected);
+                boolean krusConn     = (kruskalEdgesCnt == expected);
+                boolean connected    = primConn && krusConn;
+                boolean costsEqual   = connected && (primCost == kruskalCost);
+                String  faster       = connected ? (primMs <= kruskalMs ? "prim" : "kruskal") : "n/a";
 
-                if (!firstResult) out.append(",\n");
-                firstResult = false;
+                ResultOut r = new ResultOut();
+                r.file = p.getFileName().toString();
+                r.graph_id = gObj.get("id").getAsInt();
+                r.label = gObj.get("label").getAsString();
 
-                out.append("    {\n");
-                out.append("      \"graph_id\": ").append(gObj.get("id").getAsInt()).append(",\n");
-                out.append("      \"label\": ").append(quote(gObj.get("label").getAsString())).append(",\n");
-                out.append("      \"nodes\": ").append(oneLineNodes(nodes)).append(",\n");
+                r.input_stats.put("vertices", V);
+                r.input_stats.put("edges", M);
 
-                out.append("      \"prim\": {\n");
-                out.append("        \"mst_edges\": [\n");
-                appendEdges(out, primEdges, "          ");
-                out.append("        ],\n");
-                out.append("        \"total_cost\": ").append(wP).append(",\n");
-                out.append("        \"operations_count\": ").append(Math.max(0, pr.operations)).append(",\n");
-                out.append("        \"execution_time_ms\": ").append(quote(fmtMs7(primMs))).append("\n");
-                out.append("      },\n");
+                r.prim.execution_time_ms = primMs;
+                r.prim.operations    = Math.max(0L, pr.operations);
+                r.prim.total_cost = primCost;
+                r.prim.connected  = primConn;
+                for (Edge e : pr.edges) r.prim.mst_edges.add(new EdgeOut(e.from, e.to, e.weight));
 
-                out.append("      \"kruskal\": {\n");
-                out.append("        \"mst_edges\": [\n");
-                appendEdges(out, kruskalEdges, "          ");
-                out.append("        ],\n");
-                out.append("        \"total_cost\": ").append(wK).append(",\n");
-                out.append("        \"operations_count\": ").append(Math.max(0, kr.operations)).append(",\n");
-                out.append("        \"execution_time_ms\": ").append(quote(fmtMs7(kruskalMs))).append("\n");
-                out.append("      }\n");
+                r.kruskal.execution_time_ms = kruskalMs;
+                r.kruskal.operations = Math.max(0L, kr.operations);
+                r.kruskal.total_cost = kruskalCost;
+                r.kruskal.connected  = krusConn;
+                for (Edge e : kr.edges) r.kruskal.mst_edges.add(new EdgeOut(e.from, e.to, e.weight));
 
-                out.append("    }");
+                r.comparison.put("cost_equal", costsEqual);
+                r.comparison.put("prim_ms", primMs);
+                r.comparison.put("kruskal_ms", kruskalMs);
+                r.comparison.put("faster", faster);
+
+                bundle.results.add(r);
             }
         }
 
-        out.append("\n  ]\n}\n");
-
-        Path outPath = Paths.get("target", "ass_3_output.json");
-        Files.createDirectories(outPath.getParent());
-        try (Writer w = Files.newBufferedWriter(outPath, StandardCharsets.UTF_8)) {
-            w.write(out.toString());
+        Path out = Paths.get("ass_3_output.json");
+        try (BufferedWriter w = Files.newBufferedWriter(out, StandardCharsets.UTF_8)) {
+            new GsonBuilder().setPrettyPrinting().create().toJson(bundle, w);
         }
-        return outPath;
+        return out;
     }
 
     private static List<Path> findInputs() throws IOException {
@@ -105,30 +133,4 @@ public class GenerateOutputs {
         }
     }
     private static int sumWeight(List<Edge> es){ int s=0; for (Edge e: es) s+=e.weight; return s; }
-    private static String quote(String s) {
-        StringBuilder b = new StringBuilder("\"");
-        for (char c : s.toCharArray()) { if (c=='\\'||c=='"') b.append('\\'); b.append(c); }
-        b.append('"'); return b.toString();
-    }
-    private static String oneLineNodes(JsonArray nodes) {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i=0;i<nodes.size();i++) { if (i>0) sb.append(","); sb.append(quote(nodes.get(i).getAsString())); }
-        sb.append("]"); return sb.toString();
-    }
-    private static void appendEdges(StringBuilder sb, List<Edge> edges, String indent) {
-        for (int i=0;i<edges.size();i++) {
-            Edge e = edges.get(i);
-            sb.append(indent).append("{\"from\":\"").append(e.from)
-                    .append("\",\"to\":\"").append(e.to)
-                    .append("\",\"weight\":").append(e.weight).append("}");
-            if (i < edges.size()-1) sb.append(",");
-            sb.append("\n");
-        }
-    }
-    private static List<Edge> sortEdgesForPrint(List<Edge> edges) {
-        List<Edge> copy = new ArrayList<>(edges);
-        copy.sort(Comparator.comparingInt((Edge e)->e.weight).thenComparing(e->e.from).thenComparing(e->e.to));
-        return copy;
-    }
-    private static String fmtMs7(double ms){ return String.format(java.util.Locale.US, "%.7f", ms); }
 }
