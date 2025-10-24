@@ -8,7 +8,6 @@ public class Graph {
 
     private Map<String,Integer> index = null;
     private List<String> vertexList = null;
-    @SuppressWarnings("unchecked")
     private List<int[]>[] adjInt = null;
     private List<int[]> edgesUniqueInt = null;
 
